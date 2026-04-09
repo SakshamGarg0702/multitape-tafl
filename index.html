@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>2-Tape Turing Machine</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="app">
+
+  <header class="app-header">
+    <div class="header-icon">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <rect x="2" y="10" width="24" height="4" rx="2" fill="currentColor" opacity=".18"/>
+        <rect x="2" y="16" width="24" height="4" rx="2" fill="currentColor" opacity=".18"/>
+        <circle cx="10" cy="12" r="3" fill="currentColor"/>
+        <circle cx="18" cy="18" r="3" fill="currentColor" opacity=".6"/>
+        <rect x="2" y="10" width="4" height="4" rx="2" fill="currentColor" opacity=".3"/>
+        <rect x="22" y="16" width="4" height="4" rx="2" fill="currentColor" opacity=".3"/>
+      </svg>
+    </div>
+    <div>
+      <h1>2-Tape Turing Machine</h1>
+      <p class="subtitle">Interactive simulator with custom transition rules</p>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <div class="col-main">
+
+      <section class="card" id="control-card">
+        <div class="card-label">Input &amp; controls</div>
+        <div class="ctrl-row">
+          <input type="text" id="input-str" value="abc" placeholder="Input string (a, b, c, 0, 1…)" autocomplete="off" spellcheck="false" />
+          <div class="btn-group">
+            <button id="btn-reset" class="btn">Reset</button>
+            <button id="btn-step" class="btn btn-primary">Step</button>
+            <button id="btn-run"  class="btn btn-success">Run</button>
+          </div>
+        </div>
+        <div class="speed-row">
+          <span class="speed-label">Speed</span>
+          <input type="range" id="speed" min="1" max="10" step="1" value="5" />
+          <span id="speed-val">5</span>
+        </div>
+      </section>
+
+      <section class="card stat-card">
+        <div class="stat-grid">
+          <div class="stat"><span class="stat-label">State</span><span class="stat-val" id="disp-state">q0</span></div>
+          <div class="stat"><span class="stat-label">Step</span><span class="stat-val" id="disp-step">0</span></div>
+          <div class="stat"><span class="stat-label">Head 1</span><span class="stat-val" id="disp-h1">0</span></div>
+          <div class="stat"><span class="stat-label">Head 2</span><span class="stat-val" id="disp-h2">0</span></div>
+        </div>
+      </section>
+
+      <section class="card tape-card">
+        <div class="tape-section">
+          <div class="tape-header">
+            <span class="tape-name">Tape 1</span>
+            <span class="tape-badge">input</span>
+          </div>
+          <div class="tape-viewport" id="vp1">
+            <div class="tape-track" id="tt1"></div>
+            <div class="head-marker"></div>
+          </div>
+        </div>
+        <div class="tape-section">
+          <div class="tape-header">
+            <span class="tape-name">Tape 2</span>
+            <span class="tape-badge">output</span>
+          </div>
+          <div class="tape-viewport" id="vp2">
+            <div class="tape-track" id="tt2"></div>
+            <div class="head-marker"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-label">Active transition</div>
+        <div class="transition-display" id="tr-display">
+          <span class="tr-none">No transition applied yet</span>
+        </div>
+      </section>
+
+      <div class="msg-bar info" id="msg-bar">
+        <span class="msg-dot"></span>
+        <span id="msg-text">Ready — press Step or Run to begin.</span>
+      </div>
+
+    </div>
+
+    <div class="col-side">
+
+      <section class="card rules-card">
+        <div class="card-label">Transition table</div>
+        <div class="rules-list" id="rules-list"></div>
+      </section>
+
+      <section class="card add-rule-card">
+        <div class="card-label">Add / edit rules</div>
+        <p class="rule-hint">Format: <code>(state, sym1, sym2) → (newState, write1, write2, move1, move2)</code><br>Moves: R = right, L = left, S = stay. Use <code>_</code> for blank.</p>
+
+        <div class="rule-fields">
+          <div class="field-row">
+            <label>State</label>
+            <input type="text" id="rf-state" placeholder="q0" maxlength="10" />
+          </div>
+          <div class="field-row">
+            <label>Read 1</label>
+            <input type="text" id="rf-r1" placeholder="a" maxlength="2" />
+          </div>
+          <div class="field-row">
+            <label>Read 2</label>
+            <input type="text" id="rf-r2" placeholder="_" maxlength="2" />
+          </div>
+          <div class="field-divider">→</div>
+          <div class="field-row">
+            <label>New state</label>
+            <input type="text" id="rf-ns" placeholder="q0" maxlength="10" />
+          </div>
+          <div class="field-row">
+            <label>Write 1</label>
+            <input type="text" id="rf-w1" placeholder="a" maxlength="2" />
+          </div>
+          <div class="field-row">
+            <label>Write 2</label>
+            <input type="text" id="rf-w2" placeholder="a" maxlength="2" />
+          </div>
+          <div class="field-row">
+            <label>Move 1</label>
+            <select id="rf-m1"><option value="R">R — right</option><option value="L">L — left</option><option value="S">S — stay</option></select>
+          </div>
+          <div class="field-row">
+            <label>Move 2</label>
+            <select id="rf-m2"><option value="R">R — right</option><option value="L">L — left</option><option value="S">S — stay</option></select>
+          </div>
+        </div>
+
+        <div class="add-actions">
+          <button class="btn btn-primary" id="btn-add-rule">Add rule</button>
+          <button class="btn" id="btn-clear-rules">Clear all</button>
+        </div>
+
+        <div class="rule-feedback" id="rule-feedback"></div>
+      </section>
+
+      <section class="card preset-card">
+        <div class="card-label">Load preset</div>
+        <div class="preset-btns">
+          <button class="btn btn-preset" data-preset="copy">Copy string</button>
+          <button class="btn btn-preset" data-preset="reverse">Binary NOT</button>
+          <button class="btn btn-preset" data-preset="palindrome">Check palindrome</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
