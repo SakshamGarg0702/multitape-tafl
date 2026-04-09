@@ -3,34 +3,53 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>2-Tape Turing Machine</title>
+<title>Multi-Tape Turing Machine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+<!-- ═══ HERO ════════════════════════════════════ -->
+<div class="site-hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Interactive Simulator</div>
+    <h1 class="hero-title">Multi-Tape Turing Machine</h1>
+    <p class="hero-sub">Simulate, step through, and define your own transition rules for a 2-tape Turing Machine.</p>
+    <div class="hero-chips">
+      <span class="chip chip-blue">2 Tapes</span>
+      <span class="chip chip-teal">Independent Heads</span>
+      <span class="chip chip-purple">Custom Rules</span>
+      <span class="chip chip-amber">Step-by-Step</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SIMULATOR ═══════════════════════════════ -->
 <div class="app">
 
   <header class="app-header">
     <div class="header-icon">
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <rect x="2" y="10" width="24" height="4" rx="2" fill="currentColor" opacity=".18"/>
-        <rect x="2" y="16" width="24" height="4" rx="2" fill="currentColor" opacity=".18"/>
-        <circle cx="10" cy="12" r="3" fill="currentColor"/>
-        <circle cx="18" cy="18" r="3" fill="currentColor" opacity=".6"/>
-        <rect x="2" y="10" width="4" height="4" rx="2" fill="currentColor" opacity=".3"/>
+        <rect x="2" y="8"  width="24" height="4" rx="2" fill="currentColor" opacity=".15"/>
+        <rect x="2" y="16" width="24" height="4" rx="2" fill="currentColor" opacity=".15"/>
+        <circle cx="10" cy="10" r="3" fill="currentColor"/>
+        <circle cx="18" cy="18" r="3" fill="currentColor" opacity=".65"/>
+        <rect x="2"  y="8"  width="4" height="4" rx="2" fill="currentColor" opacity=".3"/>
         <rect x="22" y="16" width="4" height="4" rx="2" fill="currentColor" opacity=".3"/>
       </svg>
     </div>
     <div>
-      <h1>2-Tape Turing Machine</h1>
+      <h2 class="sim-title">Multi-Tape Turing Machine <span class="sim-tag">Simulator</span></h2>
       <p class="subtitle">Interactive simulator with custom transition rules</p>
     </div>
   </header>
 
   <div class="layout">
-
     <div class="col-main">
 
-      <section class="card" id="control-card">
+      <section class="card card-accent-blue" id="control-card">
         <div class="card-label">Input &amp; controls</div>
         <div class="ctrl-row">
           <input type="text" id="input-str" value="abc" placeholder="Input string (a, b, c, 0, 1…)" autocomplete="off" spellcheck="false" />
@@ -49,37 +68,43 @@
 
       <section class="card stat-card">
         <div class="stat-grid">
-          <div class="stat"><span class="stat-label">State</span><span class="stat-val" id="disp-state">q0</span></div>
-          <div class="stat"><span class="stat-label">Step</span><span class="stat-val" id="disp-step">0</span></div>
-          <div class="stat"><span class="stat-label">Head 1</span><span class="stat-val" id="disp-h1">0</span></div>
-          <div class="stat"><span class="stat-label">Head 2</span><span class="stat-val" id="disp-h2">0</span></div>
+          <div class="stat stat-state"><span class="stat-label">State</span><span class="stat-val" id="disp-state">q0</span></div>
+          <div class="stat stat-step"><span class="stat-label">Step</span><span class="stat-val" id="disp-step">0</span></div>
+          <div class="stat stat-h1"><span class="stat-label">Head 1</span><span class="stat-val" id="disp-h1">0</span></div>
+          <div class="stat stat-h2"><span class="stat-label">Head 2</span><span class="stat-val" id="disp-h2">0</span></div>
         </div>
       </section>
 
       <section class="card tape-card">
         <div class="tape-section">
           <div class="tape-header">
-            <span class="tape-name">Tape 1</span>
-            <span class="tape-badge">input</span>
+            <div class="tape-name-wrap">
+              <span class="tape-dot tape-dot-1"></span>
+              <span class="tape-name">Tape 1</span>
+            </div>
+            <span class="tape-badge tape-badge-1">input</span>
           </div>
-          <div class="tape-viewport" id="vp1">
+          <div class="tape-viewport tape-vp-1" id="vp1">
             <div class="tape-track" id="tt1"></div>
-            <div class="head-marker"></div>
+            <div class="head-marker head-marker-1"></div>
           </div>
         </div>
         <div class="tape-section">
           <div class="tape-header">
-            <span class="tape-name">Tape 2</span>
-            <span class="tape-badge">output</span>
+            <div class="tape-name-wrap">
+              <span class="tape-dot tape-dot-2"></span>
+              <span class="tape-name">Tape 2</span>
+            </div>
+            <span class="tape-badge tape-badge-2">output</span>
           </div>
-          <div class="tape-viewport" id="vp2">
+          <div class="tape-viewport tape-vp-2" id="vp2">
             <div class="tape-track" id="tt2"></div>
-            <div class="head-marker"></div>
+            <div class="head-marker head-marker-2"></div>
           </div>
         </div>
       </section>
 
-      <section class="card">
+      <section class="card card-accent-teal">
         <div class="card-label">Active transition</div>
         <div class="transition-display" id="tr-display">
           <span class="tr-none">No transition applied yet</span>
@@ -95,7 +120,7 @@
 
     <div class="col-side">
 
-      <section class="card rules-card">
+      <section class="card rules-card card-accent-amber">
         <div class="card-label">Transition table</div>
         <div class="rules-list" id="rules-list"></div>
       </section>
@@ -105,31 +130,13 @@
         <p class="rule-hint">Format: <code>(state, sym1, sym2) → (newState, write1, write2, move1, move2)</code><br>Moves: R = right, L = left, S = stay. Use <code>_</code> for blank.</p>
 
         <div class="rule-fields">
-          <div class="field-row">
-            <label>State</label>
-            <input type="text" id="rf-state" placeholder="q0" maxlength="10" />
-          </div>
-          <div class="field-row">
-            <label>Read 1</label>
-            <input type="text" id="rf-r1" placeholder="a" maxlength="2" />
-          </div>
-          <div class="field-row">
-            <label>Read 2</label>
-            <input type="text" id="rf-r2" placeholder="_" maxlength="2" />
-          </div>
+          <div class="field-row"><label>State</label><input type="text" id="rf-state" placeholder="q0" maxlength="10" /></div>
+          <div class="field-row"><label>Read 1</label><input type="text" id="rf-r1" placeholder="a" maxlength="2" /></div>
+          <div class="field-row"><label>Read 2</label><input type="text" id="rf-r2" placeholder="_" maxlength="2" /></div>
           <div class="field-divider">→</div>
-          <div class="field-row">
-            <label>New state</label>
-            <input type="text" id="rf-ns" placeholder="q0" maxlength="10" />
-          </div>
-          <div class="field-row">
-            <label>Write 1</label>
-            <input type="text" id="rf-w1" placeholder="a" maxlength="2" />
-          </div>
-          <div class="field-row">
-            <label>Write 2</label>
-            <input type="text" id="rf-w2" placeholder="a" maxlength="2" />
-          </div>
+          <div class="field-row"><label>New state</label><input type="text" id="rf-ns" placeholder="q0" maxlength="10" /></div>
+          <div class="field-row"><label>Write 1</label><input type="text" id="rf-w1" placeholder="a" maxlength="2" /></div>
+          <div class="field-row"><label>Write 2</label><input type="text" id="rf-w2" placeholder="a" maxlength="2" /></div>
           <div class="field-row">
             <label>Move 1</label>
             <select id="rf-m1"><option value="R">R — right</option><option value="L">L — left</option><option value="S">S — stay</option></select>
@@ -144,7 +151,6 @@
           <button class="btn btn-primary" id="btn-add-rule">Add rule</button>
           <button class="btn" id="btn-clear-rules">Clear all</button>
         </div>
-
         <div class="rule-feedback" id="rule-feedback"></div>
       </section>
 
@@ -160,6 +166,141 @@
     </div>
   </div>
 </div>
+
+<!-- ═══ THEORY SECTION ══════════════════════════ -->
+<section class="theory-section">
+  <div class="theory-inner">
+
+    <div class="theory-header">
+      <div class="theory-header-icon">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <rect x="1" y="6"  width="20" height="3" rx="1.5" fill="currentColor" opacity=".3"/>
+          <rect x="1" y="13" width="20" height="3" rx="1.5" fill="currentColor" opacity=".3"/>
+          <circle cx="8"  cy="7.5"  r="2.5" fill="currentColor"/>
+          <circle cx="14" cy="14.5" r="2.5" fill="currentColor" opacity=".6"/>
+        </svg>
+      </div>
+      <div>
+        <h2 class="theory-title">Multi-Tape Turing Machine — Theory</h2>
+        <p class="theory-subtitle">Concepts, working, and advantages explained simply</p>
+      </div>
+    </div>
+
+    <div class="theory-grid">
+
+      <!-- 1 -->
+      <div class="theory-card tc-blue">
+        <div class="tc-number">01</div>
+        <h3 class="tc-heading">Definition</h3>
+        <p class="tc-body">A Multi-Tape Turing Machine is an extension of the standard Turing Machine that has two or more tapes instead of one. Each tape is infinite and stores symbols independently. The machine has a separate read/write head for every tape, and all heads operate simultaneously in one step.</p>
+      </div>
+
+      <!-- 2 -->
+      <div class="theory-card tc-teal">
+        <div class="tc-number">02</div>
+        <h3 class="tc-heading">Key concept</h3>
+        <p class="tc-body">The defining property is <strong>parallelism</strong> — each tape stores different data and each head reads or writes on its own tape every transition. The current state is shared, but head positions and tape contents evolve independently.</p>
+        <ul class="tc-list">
+          <li>Multiple tapes, each infinite and independently writable</li>
+          <li>One read/write head per tape, all moving simultaneously</li>
+          <li>A single shared state controls all heads together</li>
+        </ul>
+      </div>
+
+      <!-- 3 -->
+      <div class="theory-card tc-purple">
+        <div class="tc-number">03</div>
+        <h3 class="tc-heading">How it works</h3>
+        <p class="tc-body">At each step: read the symbol under every head, look up a transition rule for the current state + all symbols, write new symbols, move each head (L / R / S), and update the state — all in one transition.</p>
+        <ul class="tc-list">
+          <li>Reads all tapes simultaneously</li>
+          <li>One matching rule fires per step</li>
+          <li>Writes to each tape and moves heads independently</li>
+          <li>Halts when a final/accept state is reached</li>
+        </ul>
+      </div>
+
+      <!-- 4 -->
+      <div class="theory-card tc-amber">
+        <div class="tc-number">04</div>
+        <h3 class="tc-heading">Example — copying a string</h3>
+        <p class="tc-body">Start with <code>abc</code> on Tape 1, blank Tape 2. The machine reads each character from Tape 1 and writes it on Tape 2, moving both heads right. When it reads blank on Tape 1 it halts, leaving Tape 2 with an identical copy.</p>
+        <div class="tc-example-row">
+          <div class="tc-example-tape">
+            <span class="tc-tape-label">Tape 1</span>
+            <div class="tc-tape-cells">
+              <span class="tc-cell tc-cell-read">a</span>
+              <span class="tc-cell tc-cell-read">b</span>
+              <span class="tc-cell tc-cell-read">c</span>
+              <span class="tc-cell tc-cell-blank">_</span>
+            </div>
+          </div>
+          <div class="tc-arrow-down">↓ copy</div>
+          <div class="tc-example-tape">
+            <span class="tc-tape-label">Tape 2</span>
+            <div class="tc-tape-cells">
+              <span class="tc-cell tc-cell-written">a</span>
+              <span class="tc-cell tc-cell-written">b</span>
+              <span class="tc-cell tc-cell-written">c</span>
+              <span class="tc-cell tc-cell-blank">_</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="theory-card tc-green">
+        <div class="tc-number">05</div>
+        <h3 class="tc-heading">Advantage</h3>
+        <p class="tc-body">Multi-tape machines solve certain problems much faster by using extra tapes as scratch space, storing intermediate results, or reading input and writing output simultaneously.</p>
+        <ul class="tc-list">
+          <li>Fewer steps — work happens in parallel across tapes</li>
+          <li>Extra tapes act as scratch / working memory</li>
+          <li>Separating input, workspace, and output reduces head movement</li>
+          <li>Some problems drop from O(n²) to O(n) steps</li>
+        </ul>
+      </div>
+
+      <!-- 6 -->
+      <div class="theory-card tc-coral">
+        <div class="tc-number">06</div>
+        <h3 class="tc-heading">Important note</h3>
+        <p class="tc-body">Despite being faster, a Multi-Tape Turing Machine is <strong>not more powerful</strong> than a single-tape machine. Every multi-tape machine can be simulated by a single-tape machine that encodes all tapes on one tape. Both decide exactly the same class of languages.</p>
+        <div class="tc-note-box">
+          Multi-tape TM &nbsp;≡&nbsp; Single-tape TM<br>
+          <small>Same computational power — different speed</small>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Quick-reference bar -->
+    <div class="theory-footer">
+      <div class="tf-item">
+        <span class="tf-icon tf-icon-blue">δ</span>
+        <div>
+          <div class="tf-label">Transition function</div>
+          <div class="tf-val"><code>δ(q, s₁, s₂) → (q', w₁, w₂, d₁, d₂)</code></div>
+        </div>
+      </div>
+      <div class="tf-item">
+        <span class="tf-icon tf-icon-teal">∑</span>
+        <div>
+          <div class="tf-label">Tape alphabet</div>
+          <div class="tf-val">Finite set of symbols + blank <code>_</code></div>
+        </div>
+      </div>
+      <div class="tf-item">
+        <span class="tf-icon tf-icon-purple">Q</span>
+        <div>
+          <div class="tf-label">State set</div>
+          <div class="tf-val">Finite; includes start <code>q0</code> and halt states</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
 
 <script src="main.js"></script>
 </body>
